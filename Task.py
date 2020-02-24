@@ -198,10 +198,14 @@ def proce_Last_block(string, mas_fru, vector_action, fruits, action):
     str_answer = ''
 
 
-
+    if len(vec_a) == 0:
+        print("error:")
+        print("      В питанні для задачі немає дієслова або воно не додано до списку ймовірних дієслів, питання неможливо скласти без дієслова")
+        return 1
     if len(vec_a) > 1:
-        print("В питанні для задачі може бути тільки одне вказуюче на кількість чогось слово, додайте ще одне питання з необхідним вам словом",' "',vec_a[1],'"')
-        return 0
+        print("error:")
+        print("      В питанні для задачі може бути тільки дієслово, додайте ще одне питання з необхідним вам дієсловом",' "',vec_a[1],'"')
+        return 1
     else:
         str1 = ''
         vec_wanted_f = [0] * len(fruits)
@@ -271,12 +275,10 @@ def proce_Last_block(string, mas_fru, vector_action, fruits, action):
 
 
 
-def input():
-    str = "3 апельсини 5 яблук,10 мандарин та 4 олівці лежали на столі. " \
-          "Хлопчик з'їв 4 мандарини та 2 апельсини,облизав 4 мандарини, та облизав 4 олівці." \
-          "Скільки фруктів, мандарин, апельсин з'їв хлопчик? " \
-          "Скільки залишилось фруктів та мандарин,апельсин на столі?" \
-          "Скільки фруктів, мандарин, апельсин облизав хлопчик? "
+def input_task():
+    print("Введіть текст завдання :")
+    str=input()
+
 
     return str
 
@@ -288,9 +290,10 @@ def start():
     # Дії які можна проводини над речами мають в теорії лиш три вида операцій. Це додавання до кучі фруктів і речей чогось (помістив. покласти, докинути і тд.), віднімання  (з'їсти, забрати), дії які ніяк не змінюють кількість речей на столі(подивився, облизав та інше ).
     action = [["з'їсти", "забрати"], ["покласти","додати"], ["облизати", "подивитись"]]
 
-    str = input()
+    str = input_task()
     # init vector of conditions and questions
     task = []
+    print("Умова:")
     print(str)
     task=line_breaks(str)
 
@@ -298,9 +301,14 @@ def start():
     vector_action = proce_s_block(task[1], action, fruits)
     # print(vector_action)
     for i in range(2,len(task),+1):
+        print("Питання під номером:",i-1)
+        print(task[i])
 
-        proce_Last_block(task[i], vector, vector_action, fruits,action)
-
+        print("Відповідь:")
+        resalt=proce_Last_block(task[i], vector, vector_action, fruits,action)
+        if resalt==1:
+            print("Виправте питання під номером ",i-1)
+        print()
 
 start()
 
